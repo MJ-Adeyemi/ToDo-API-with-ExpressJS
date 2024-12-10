@@ -32,6 +32,30 @@ const getTasks = async (req, res) => {
   }
 };
 
+// Update task completion status
+const updateTaskCompletion = async (req, res) => {
+  try {
+    const { id } = req.params; // Task ID from URL
+    const { completed } = req.body; // Updated completion status
+
+    const updatedTask = await ToDo.findByIdAndUpdate(
+      id,
+      { completed },
+      { new: true, runValidators: true } // Return the updated document and validate inputs
+    );
+
+    if (!updatedTask) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    res.status(200).json({ message: "Task updated successfully", updatedTask });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to update task completion" });
+  }
+};
+
+
 // Delete tasks where completed = true
 const deleteCompletedTasks = async (req, res) => {
   try {
@@ -45,4 +69,4 @@ const deleteCompletedTasks = async (req, res) => {
   }
 };
 
-module.exports = { createTask, getTasks, deleteCompletedTasks };
+module.exports = { createTask, getTasks, updateTaskCompletion, deleteCompletedTasks };

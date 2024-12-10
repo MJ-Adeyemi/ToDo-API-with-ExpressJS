@@ -1,6 +1,7 @@
 const {
   createTask,
   getTasks,
+  updateTaskCompletion,
   deleteCompletedTasks,
 } = require("../controllers/ToDoController");
 const express = require("express");
@@ -11,6 +12,8 @@ router.post("/tasks", createTask);
 
 // Route to get all tasks
 router.get("/tasks", getTasks);
+
+router.put("/tasks/:id", updateTaskCompletion);
 
 // Route to delete completed tasks
 router.delete("/tasks/completed", deleteCompletedTasks);
