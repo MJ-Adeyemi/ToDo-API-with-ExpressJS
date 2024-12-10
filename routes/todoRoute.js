@@ -1,21 +1,16 @@
 const {
   createTask,
   getTasks,
-  updateTaskCompletion,
   deleteCompletedTasks,
+  updateTaskCompletion,
 } = require("../controllers/ToDoController");
 const express = require("express");
+const authMiddleware = require("../middlewares/authMiddleware");
 const router = express.Router();
 
-// Route to create a task
-router.post("/tasks", createTask);
-
-// Route to get all tasks
-router.get("/tasks", getTasks);
-
-router.put("/tasks/:id", updateTaskCompletion);
-
-// Route to delete completed tasks
-router.delete("/tasks/completed", deleteCompletedTasks);
+router.post("/tasks", authMiddleware, createTask);
+router.get("/tasks", authMiddleware, getTasks);
+router.put("/tasks/:id", authMiddleware, updateTaskCompletion);
+router.delete("/tasks/completed", authMiddleware, deleteCompletedTasks);
 
 module.exports = router;
